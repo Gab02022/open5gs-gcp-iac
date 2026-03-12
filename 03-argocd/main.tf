@@ -1,4 +1,23 @@
-# 2. Inyectar Apps (Core 5G y UERANSIM) automáticamente
+# 1. Instalar el motor de ArgoCD
+resource "helm_release" "argocd" {
+  name             = "argocd"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
+  namespace        = "argocd"
+  create_namespace = true
+  version          = "5.51.6"
+
+  values = [
+    <<-EOT
+    server:
+      # Desactivamos TLS local
+      extraArgs:
+        - --insecure
+    EOT
+  ]
+}
+
+# 2. Inyectar  (Core 5G y UERANSIM)
 resource "helm_release" "argocd_apps" {
   name       = "argocd-apps"
   repository = "https://argoproj.github.io/argo-helm"
@@ -36,10 +55,10 @@ resource "helm_release" "argocd_apps" {
         source:
           repoURL: 'https://github.com/Gab02022/open5gs-k8s-gcp-test.git'
           targetRevision: HEAD
-          path: charts/ueransim-gnb 
+          path: charts/ueransim-gnb
         destination:
           server: 'https://kubernetes.default.svc'
-          namespace: ueransim     
+          namespace: ueransim
         syncPolicy:
           automated:
             prune: true
@@ -54,10 +73,10 @@ resource "helm_release" "argocd_apps" {
         source:
           repoURL: 'https://github.com/Gab02022/open5gs-k8s-gcp-test.git'
           targetRevision: HEAD
-          path: charts/ueransim-ues 
+          path: charts/ueransim-ues
         destination:
           server: 'https://kubernetes.default.svc'
-          namespace: ueransim  
+          namespace: ueransim
         syncPolicy:
           automated:
             prune: true

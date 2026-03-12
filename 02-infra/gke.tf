@@ -3,6 +3,8 @@ resource "google_container_cluster" "primary" {
   name     = "open5gs-cluster" # --cluster-name
   location = "us-central1-a"   # --zone
 
+  deletion_protection = false
+
   # Lo conectamos a la VPC que creamos en el paso anterior
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
