@@ -1,0 +1,41 @@
+name: "Terraform CD - App Delivery (ArgoCD)"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '03-argocd/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy-argocd:
+    name: "Instalación de ArgoCD"
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./03-argocd
+
+    steps:
+      - name: ⬇️ Checkout del codigo
+        uses: actions/checkout@v4
+
+      - name: 🔐 Autenticacion en Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/210029066248/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          service_account: 'github-actions-sa@open5gs-479200.iam.gserviceaccount.com'
+
+      - name: 🛠️ Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: 🚀 Terraform Init
+        run: terraform init
+
+      - name: ⚡ Terraform Apply
+        run: terraform apply -auto-approve
