@@ -17,7 +17,12 @@ locals {
     "roles/compute.networkAdmin",
     "roles/container.admin",
     "roles/iam.serviceAccountUser",
-	"roles/storage.admin"
+	"roles/storage.admin",
+	# Permisos para gestionar el propio Bootstrap (IAM y Seguridad)
+    "roles/resourcemanager.projectIamAdmin", 
+    "roles/iam.workloadIdentityPoolAdmin",   
+    "roles/iam.serviceAccountAdmin",         
+    "roles/serviceusage.serviceUsageAdmin"
   ]
 }
 
