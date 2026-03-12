@@ -16,7 +16,8 @@ locals {
   github_sa_roles = [
     "roles/compute.networkAdmin",
     "roles/container.admin",
-    "roles/iam.serviceAccountUser"
+    "roles/iam.serviceAccountUser",
+	"roles/storage.admin"
   ]
 }
 
