@@ -1,0 +1,46 @@
+name: "Terraform CD - Infraestructura (VPC y GKE)"
+
+on:
+  push:
+    branches:
+      - main
+    # el pipeline solo correrá si detecta cambios en la carpeta 02-infra
+    paths:
+      - '02-infra/**'
+  workflow_dispatch: # Botón manual
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy-infra:
+    name: "Despliegue de GKE"
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ./02-infra
+
+    steps:
+      - name: Checkout del codigo
+        uses: actions/checkout@v4
+
+      - name: Autenticacion en Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:          
+          workload_identity_provider: 'projects/210029066248/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider'
+          service_account: 'github-actions-sa@open5gs-479200.iam.gserviceaccount.com'
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply        
+        run: terraform apply -auto-approve tfplan
