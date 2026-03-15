@@ -38,6 +38,7 @@ From your local terminal or Google Cloud Shell, authenticate with your admin acc
 cd 01-bootstrap
 terraform init
 terraform apply -auto-approve
+```
 
 ## 🚀 How to Deploy
 
