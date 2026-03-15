@@ -22,12 +22,22 @@ This repository contains the complete Infrastructure as Code (IaC) and GitOps co
 ## 📂 Repository Structure (Infrastructure)
 This repository cntains purely the IaC and GitOps bootstrapping. The application manifests are hosted in a separate repository to maintain a clean separation of concerns.
 
+* `/01-bootstrap`: Terraform configurations for the initial GCP environment setup (GCS State Bucket, Service Account, Workload Identity Federation).
 * `/02-infra`: Terraform configurations for the base GCP infrastructure (VPC, Subnets, GKE Cluster).
 * `/03-argocd`: Terraform configurations to install ArgoCD and configure the GitOps synchronization.
 * `/.github/workflows`: GitHub Actions pipelines for automated CI/CD creation and destruction.
 * `Makefile`: Local automation script for rapid deployment (`make up` / `make down`).
 
 🔗 **Application Repository:** The Helm charts and Kubernetes manifests for Open5GS, UERANSIM, and the Python initialization Job are managed by ArgoCD from this repository: [Gab02022/open5gs-k8s-gcp-test](https://github.com/Gab02022/open5gs-k8s-gcp-test).
+
+## 🛠️ Phase 0: Bootstrap
+Before GitHub Actions can automate the infrastructure, it needs a way to authenticate to GCP (Workload Identity Federation) and a place to store the Terraform state (GCS Bucket). Because GitHub Actions cannot create the very credentials it needs to log in, this initial phase must be applied locally.
+
+From your local terminal or Google Cloud Shell, authenticate with your admin account and run:
+```bash
+cd 01-bootstrap
+terraform init
+terraform apply -auto-approve
 
 ## 🚀 How to Deploy
 
