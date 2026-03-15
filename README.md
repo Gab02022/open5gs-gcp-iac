@@ -57,6 +57,18 @@ make up
 # Destroy the complete environment
 make down
 ```
+🧪 Verification
+Once the deployment is complete, verify that the 5G User Equipment (UE) has successfully connected to the Core and established a PDU session:
+
+```bash
+# Get the UE pod name
+kubectl get pods -n ueransim
+
+# Check the connection logs
+kubectl logs -l <ueransim-ues pod> -n ueransim
+```
+Look for the message: PDU Session establishment is successful.
+
 ## 🤝 Acknowledgments & Credits
 
 This project was inspired by and builds upon the structural and automation concepts from [samuelrojasm/blueprint-aws-tf-bootstrap](https://github.com/samuelrojasm/blueprint-aws-tf-bootstrap). Huge thanks to Samuel Rojas for the foundational work that helped shape the IaC and GitOps approach of this lab.
