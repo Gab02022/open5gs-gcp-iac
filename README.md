@@ -65,7 +65,7 @@ Once the deployment is complete, verify that the 5G User Equipment (UE) has succ
 kubectl get pods -n ueransim
 
 # Check the connection logs
-kubectl logs -l <ueransim-ues pod> -n ueransim
+kubectl logs -n ueransim <ueransim-ues pod>
 ```
 Look for the message: PDU Session establishment is successful.
 
