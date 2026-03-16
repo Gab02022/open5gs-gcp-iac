@@ -67,7 +67,7 @@ Una vez finalizado el despliegue, verifica que el teléfono 5G virtual (UE) se h
 kubectl get pods -n ueransim
 
 # Revisar los logs de conexión
-kubectl logs -l <ueransim-ues pod> -n ueransim
+kubectl logs -n ueransim <ueransim-ues pod>
 
 ```
 
